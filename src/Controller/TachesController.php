@@ -16,13 +16,17 @@ class TachesController extends AbstractController
 {
     #[Route('/', name: 'app_taches_index', methods: ['GET'])]
 
-    
-    public function index(TachesRepository $tachesRepository): Response
+
+    public function index(TachesRepository $tachesRepository, Request $request): Response
     {
+        $statut = $request->query->get('statut');
+        $sort = $request->query->get('sort');
+        $taches = $tachesRepository->findAllWithSortAndFilter($sort, $statut);
         return $this->render('taches/index.html.twig', [
-            'taches' => $tachesRepository->findAll(),
+            'taches' => $taches,
         ]);
     }
+
 
     #[Route('/new', name: 'app_taches_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager,): Response

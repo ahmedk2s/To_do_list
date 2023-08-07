@@ -21,6 +21,25 @@ class TachesRepository extends ServiceEntityRepository
         parent::__construct($registry, Taches::class);
     }
 
+    public function countAll(): int
+    {
+        return $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countByStatus(string $status): int
+    {
+        return $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->where('t.statut = :status')
+            ->setParameter('status', $status)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    // Tri et Filtre
     public function findAllWithSortAndFilter($sort = null, $status = null)
     {
         $qb = $this->createQueryBuilder('t');
@@ -36,6 +55,9 @@ class TachesRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+
+
 
     //    /**
     //     * @return Taches[] Returns an array of Taches objects

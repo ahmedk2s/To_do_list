@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/taches')]
 class TachesController extends AbstractController
@@ -17,15 +18,33 @@ class TachesController extends AbstractController
     #[Route('/', name: 'app_taches_index', methods: ['GET'])]
 
 
-    public function index(TachesRepository $tachesRepository, Request $request): Response
+    public function index(TachesRepository $tachesRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $statut = $request->query->get('statut');
         $sort = $request->query->get('sort');
-        $taches = $tachesRepository->findAllWithSortAndFilter($sort, $statut);
+        $page = $request->query->getInt('page', 1);
+
+        // récupération des tâches avec tri et filtre
+        $taches = $paginator->paginate(
+            $tachesRepository->findAllWithSortAndFilter($sort, $statut),
+            $page,
+            7
+        );
+
+        // statistiques
+        $totalTaches = $tachesRepository->countAll();
+        $tachesEnCours = $tachesRepository->countByStatus('en cours');
+        $tachesTerminees = $tachesRepository->countByStatus('terminée');
+
         return $this->render('taches/index.html.twig', [
             'taches' => $taches,
+            'total_taches' => $totalTaches, // affiche le nombre total de tâches
+            'taches_en_cours' => $tachesEnCours, // affiche les tâches en cours
+            'taches_terminees' => $tachesTerminees, // affiche les tâches terminées
         ]);
     }
+
+
 
 
     #[Route('/new', name: 'app_taches_new', methods: ['GET', 'POST'])]

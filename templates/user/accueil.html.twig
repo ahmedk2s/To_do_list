@@ -1,19 +1,20 @@
 {% extends "base.html.twig" %}
 
-{% block title %} Accueil
-{% endblock %}
+{% block title %} Accueil {% endblock %}
 
 {% block body %}
 <div class="container mt-5">
-<div class="jumbotron">
-  <h1 class="display-4">To Do List</h1>
-  <p class="lead">Une "To-Do List" est une liste de tâches à accomplir. C'est un outil simple et pratique pour organiser ses activités et ne rien oublier. Chaque tâche est généralement accompagnée d'une case à cocher pour indiquer qu'elle a été réalisée.</p>
-  <hr class="my-5">
-  <p>Pour commencer, rendez-vous sur la page d'inscription pour utiliser l'application</p>
-  <a class="btn btn-secondary btn-lg" href="{{ path('app_register') }}" role="button">Inscription</a>
+    <div class="jumbotron">
+        <h1 class="display-4">To Do List</h1>
+        <p class="lead">Une "To-Do List" est une liste de tâches à accomplir. C'est un outil simple et pratique pour organiser ses activités et ne rien oublier. Chaque tâche est généralement accompagnée d'une case à cocher pour indiquer qu'elle a été réalisée.</p>
+        <hr class="my-5">
+        <p>Pour commencer, rendez-vous sur la page d'inscription pour utiliser l'application <br> Connectez vous si vous êtes déjà inscrit</p>
+        <a class="btn btn-secondary btn-lg" href="{{ path('app_register') }}" role="button">Inscription</a>
+        
+        <a class="btn btn-lg btn-primary mt-2 mx-3" href="{{ path('app_login') }}">
+    Connexion
+</a>
 
+    </div>
 </div>
-</div>
-
-
 {% endblock %}

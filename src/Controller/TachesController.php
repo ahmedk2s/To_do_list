@@ -20,11 +20,12 @@ class TachesController extends AbstractController
 
     public function index(TachesRepository $tachesRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        // récupération des tâches avec tri et filtre
         $statut = $request->query->get('statut');
         $sort = $request->query->get('sort');
         $page = $request->query->getInt('page', 1);
 
-        // récupération des tâches avec tri et filtre
+        // Pagination
         $taches = $paginator->paginate(
             $tachesRepository->findAllWithSortAndFilter($sort, $statut),
             $page,

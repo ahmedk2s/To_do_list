@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index des Taches{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="my-4">Index des Taches</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Priorite</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for tach in taches %}
+                <tr>
+                    <td>{{ tach.titre }}</td>
+                    <td>{{ tach.description }}</td>
+                    <td>{{ tach.date|date('d-m-Y') }}</td>
+                    <td>{{ tach.priorite }}</td>
+                    <td>{{ tach.statut }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" href="{{ path('app_taches_show', {'id': tach.id}) }}">Voir</a>
+                        <a class="btn btn-sm btn-secondary" href="{{ path('app_taches_edit', {'id': tach.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Aucune taches enregistrée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if app.user %}
+            <div class="d-flex justify-content-end mb-3">
+                <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+            </div>
+        {% endif %}
+
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-success" href="{{ path('app_taches_new') }}">Créer taches</a>
+    </div>
+</div>
+{% endblock %}

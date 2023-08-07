@@ -20,13 +20,13 @@ class Taches
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?int $date = null;
+    private ?\DateTime $date = null;
 
     #[ORM\Column(length: 255)]
     private ?string $priorite = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    private ?string $statut = null;
 
     public function getId(): ?int
     {
@@ -57,12 +57,12 @@ class Taches
         return $this;
     }
 
-    public function getDate(): ?int
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
 
-    public function setDate(int $date): static
+    public function setDate(\DateTime $date): static
     {
         $this->date = $date;
 
@@ -81,14 +81,14 @@ class Taches
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatut(): ?string
     {
-        return $this->status;
+        return $this->statut;
     }
 
-    public function setStatus(string $status): static
+    public function setStatut(string $statut): static
     {
-        $this->status = $status;
+        $this->statut = $statut;
 
         return $this;
     }

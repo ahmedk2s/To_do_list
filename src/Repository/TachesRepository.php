@@ -51,12 +51,23 @@ class TachesRepository extends ServiceEntityRepository
                 ->setParameter('status', $status);
         }
 
+        // Tri par priorité puis par le champ choisi
+        $qb->addSelect('CASE 
+        WHEN t.priorite = \'Haute\' THEN 3
+        WHEN t.priorite = \'Moyenne\' THEN 2
+        WHEN t.priorite = \'Basse\' THEN 1
+        ELSE 0
+    END AS HIDDEN orderField')
+            ->orderBy('orderField', 'DESC');
+
         if ($sort) {
-            $qb->orderBy('t.' . $sort);
+            $qb->addOrderBy('t.' . $sort);
         }
 
+        // Affiche les priorités avant le tri
         return $qb->getQuery()->getResult();
     }
+
 
 
 

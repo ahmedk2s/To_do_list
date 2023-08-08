@@ -73,8 +73,12 @@
                     <td>{{ tach.titre }}</td>
                     <td>{{ tach.description }}</td>
                     <td>{{ tach.date|date('d-m-Y') }}</td>
-                    <td>{{ tach.priorite }}</td>
-                    <td>{{ tach.statut }}</td>
+                    <td>{{ tach.priorite == 'Haute' ? '<span class="badge bg-danger">Haute</span>' : '' }}
+                            {{ tach.priorite == 'Moyenne' ? '<span class="badge bg-warning">Moyenne</span>' : '' }}
+                            {{ tach.priorite == 'Basse' ? '<span class="badge bg-info">Basse</span>' : '' }}</td>
+                    <td> {{ tach.statut == 'Terminée' ? '<span class="badge bg-success">Terminée</span>' : '' }}
+        {{ tach.statut == 'En cours' ? '<span class="badge bg-primary">En cours</span>' : '' }}
+        {{ tach.statut == 'À faire' ? '<span class="badge bg-secondary">À faire</span>' : '' }}</td>
                     <td>
                         <a class="btn btn-sm btn-primary" href="{{ path('app_taches_show', {'id': tach.id}) }}">Voir</a>
                         <a class="btn btn-sm btn-secondary" href="{{ path('app_taches_edit', {'id': tach.id}) }}">Modifier</a>

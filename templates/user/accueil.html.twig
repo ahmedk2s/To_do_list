@@ -11,8 +11,14 @@
         <p>Pour commencer, rendez-vous sur la page d'inscription pour utiliser l'application <br> Connectez vous si vous êtes déjà inscrit</p>
         <a class="btn btn-secondary btn-lg" href="{{ path('app_register') }}" role="button">Inscription</a>
         
-        <a class="btn btn-lg btn-primary mt-2 mx-3" href="{{ path('app_login') }}">
-    Connexion
+        {% if app.user %}
+     {# Si l'utilisateur est connecté  #}
+    <a class="btn btn-lg btn-info mt-2 mx-3" href="{{ path('app_taches_index') }}">Aller à l'Index</a>
+{% else %}
+    {# Si l'utilisateur n'est pas connecté #}
+    <a class="btn btn-lg btn-primary mt-2 mx-3" href="{{ path('app_login') }}">Connexion</a>
+{% endif %}
+
 </a>
 
     </div>

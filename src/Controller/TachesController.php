@@ -37,7 +37,7 @@ class TachesController extends AbstractController
         $totalTaches = $tachesRepository->countAll();
         $tachesEnCours = $tachesRepository->countByStatus('en cours');
         $tachesTerminees = $tachesRepository->countByStatus('terminée');
-
+       
         return $this->render('taches/index.html.twig', [
             'taches' => $taches,
             'total_taches' => $totalTaches, // affiche le nombre total de tâches

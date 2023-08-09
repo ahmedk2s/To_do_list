@@ -31,6 +31,7 @@ class TachesController extends AbstractController
             $tachesRepository->findAllWithSortAndFilter($sort, $statut),
             $page,
             7
+            
         );
 
         // statistiques

@@ -60,13 +60,15 @@ class TachesRepository extends ServiceEntityRepository
     END AS HIDDEN orderField')
             ->orderBy('orderField', 'DESC');
 
+        // Tri par le champ choisi si $sort est défini et différent de if ($sort) {
         if ($sort) {
             $qb->addOrderBy('t.' . $sort);
         }
 
-        // Affiche les priorités avant le tri
+
         return $qb->getQuery()->getResult();
     }
+    
 
 
 

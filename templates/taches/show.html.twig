@@ -1,52 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Taches{% endblock %}
+{% block title %}
+    Taches
+{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
+<div class="container mt-5 animate__animated animate__fadeIn">
     <h1 class="my-4">Taches</h1>
 
-    <div class="card border-primary mb-3">
+    <div class="card border-primary mb-3 animate__animated animate__fadeIn">
         <div class="card-body">
             <table class="table table-hover table-striped table-borderless">
                 <tbody>
-                    <tr>
+                    <tr class="animate__animated animate__fadeIn">
                         <th scope="row">Titre</th>
                         <td>{{ tach.titre }}</td>
                     </tr>
-                    <tr>
+                    <tr class="animate__animated animate__fadeIn">
                         <th scope="row">Description</th>
                         <td>{{ tach.description }}</td>
                     </tr>
-                    <tr>
+                    <tr class="animate__animated animate__fadeIn">
                         <th scope="row">Date</th>
                         <td>{{ tach.date|date('d-m-Y') }}</td>
                     </tr>
-                    <tr>
-                         <th scope="row">Priorite</th>
-                         <td>{{ tach.priorite == 'Haute' ? '<span class="badge bg-danger">Haute</span>' : '' }}
-                            {{ tach.priorite == 'Moyenne' ? '<span class="badge bg-warning">Moyenne</span>' : '' }}
-                            {{ tach.priorite == 'Basse' ? '<span class="badge bg-info">Basse</span>' : '' }}
-        </td>
-    </tr>
-    <tr>
-    <th scope="row">Statut</th>
-    <td>
-        {{ tach.statut == 'Terminée' ? '<span class="badge bg-success">Terminée</span>' : '' }}
-        {{ tach.statut == 'En cours' ? '<span class="badge bg-primary">En cours</span>' : '' }}
-        {{ tach.statut == 'À faire' ? '<span class="badge bg-secondary">À faire</span>' : '' }}
-    </td>
-</tr>
-
+                    <tr class="animate__animated animate__fadeIn">
+                        <th scope="row">Priorite</th>
+                        <td>
+                            {% if tach.priorite == 'Haute' %}
+                                <span class="badge bg-danger animate__animated animate__bounceIn">Haute</span>
+                            {% elseif tach.priorite == 'Moyenne' %}
+                                <span class="badge bg-warning animate__animated animate__bounceIn">Moyenne</span>
+                            {% elseif tach.priorite == 'Basse' %}
+                                <span class="badge bg-info animate__animated animate__bounceIn">Basse</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr class="animate__animated animate__fadeIn">
+                        <th scope="row">Statut</th>
+                        <td>
+                            {% if tach.statut == 'Terminée' %}
+                                <span class="badge bg-success animate__animated animate__bounceIn">Terminée</span>
+                            {% elseif tach.statut == 'En cours' %}
+                                <span class="badge bg-primary animate__animated animate__bounceIn">En cours</span>
+                            {% elseif tach.statut == 'À faire' %}
+                                <span class="badge bg-secondary animate__animated animate__bounceIn">À faire</span>
+                            {% endif %}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
-            <div class="d-flex flex-column align-items-end">
-                <a class="btn btn-primary mb-3" href="{{ path('app_taches_edit', {'id': tach.id}) }}">Modifier une tache</a>
-                <div>{{ include('taches/_delete_form.html.twig') }}</div>
-            </div>
+            <div class="d-flex justify-content-between animate__animated animate__fadeIn">
+                <div class="d-flex align-items-end">
+                    <a class="btn btn-outline-secondary animate__animated animate__fadeInLeft" href="{{ path('app_taches_index') }}">Retour à la liste</a>
+                </div>
 
-            <a class="btn btn-outline-secondary mt-3" href="{{ path('app_taches_index') }}">Retour à la liste</a>
+                <div class="d-flex flex-column align-items-end">
+                    <a class="btn btn-primary mb-2 animate__animated animate__fadeInRight" href="{{ path('app_taches_edit', {'id': tach.id}) }}">Modifier une tache</a>
+                    <div>{{ include('taches/_delete_form.html.twig') }}</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

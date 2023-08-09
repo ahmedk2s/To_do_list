@@ -30,7 +30,7 @@ class TachesType extends AbstractType
             ->add('statut', ChoiceType::class, [
                 'choices' => [
                     'Terminée' => 'Terminée',
-                    'A faire' => 'A faire',
+                    'À faire' => 'À faire',
                     'En cours' => 'En cours',
                 ],
                 'expanded' => true,

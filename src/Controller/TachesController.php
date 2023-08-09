@@ -37,12 +37,14 @@ class TachesController extends AbstractController
         $totalTaches = $tachesRepository->countAll();
         $tachesEnCours = $tachesRepository->countByStatus('en cours');
         $tachesTerminees = $tachesRepository->countByStatus('terminée');
+        $tachesAfaire = $tachesRepository->countByStatus('à faire');
        
         return $this->render('taches/index.html.twig', [
             'taches' => $taches,
-            'total_taches' => $totalTaches, // affiche le nombre total de tâches
-            'taches_en_cours' => $tachesEnCours, // affiche les tâches en cours
             'taches_terminees' => $tachesTerminees, // affiche les tâches terminées
+            'taches_en_cours' => $tachesEnCours, // affiche les tâches en cours            
+            'taches_a_faire' => $tachesAfaire, // affiche les tâches à faire            
+            'total_taches' => $totalTaches, // affiche le nombre total de tâches
         ]);
     }
 

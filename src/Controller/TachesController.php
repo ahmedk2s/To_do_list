@@ -30,8 +30,7 @@ class TachesController extends AbstractController
         $taches = $paginator->paginate(
             $tachesRepository->findAllWithSortAndFilter($sort, $statut),
             $page,
-            7
-            
+            5
         );
 
         // statistiques

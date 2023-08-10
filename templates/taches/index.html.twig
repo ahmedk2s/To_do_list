@@ -4,6 +4,19 @@
 
 {% block body %}
 <div class="d-flex flex-column min-vh-100">
+{% for message in app.flashes('success') %}
+<div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+    <div class="d-flex align-items-center">
+        <i class="fas fa-check-circle fa-lg mx-2"></i>
+        <div>{{ message }}</div>
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+{% endfor %}
+
+
     <div class="container flex-grow-1">
         <h1 class="my-4 animate__animated animate__slideInDown">Index des Taches</h1>
         <div class="row mb-4">

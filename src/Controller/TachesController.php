@@ -11,59 +11,55 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\Security\Core\Security;
 
 #[Route('/taches')]
 class TachesController extends AbstractController
 {
     #[Route('/', name: 'app_taches_index', methods: ['GET'])]
-
-
     public function index(TachesRepository $tachesRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        // récupération des tâches avec tri et filtre
-        $statut = $request->query->get('statut');
-        $sort = $request->query->get('sort');
-        $page = $request->query->getInt('page', 1);
+        $user = $this->getUser();
 
-        // Pagination
         $taches = $paginator->paginate(
-            $tachesRepository->findAllWithSortAndFilter($sort, $statut),
-            $page,
+            $tachesRepository->findBy(['user' => $user]),
+            $request->query->getInt('page', 1),
             5
         );
 
-        // statistiques
-        $totalTaches = $tachesRepository->countAll();
-        $tachesEnCours = $tachesRepository->countByStatus('en cours');
-        $tachesTerminees = $tachesRepository->countByStatus('terminée');
-        $tachesAfaire = $tachesRepository->countByStatus('à faire');
-       
+        $tachesTerminees = $tachesRepository->count(['user' => $user, 'statut' => 'Terminée']);
+        $tachesEnCours = $tachesRepository->count(['user' => $user, 'statut' => 'En cours']);
+        $tachesAFaire = $tachesRepository->count(['user' => $user, 'statut' => 'À faire']);
+        $totalTaches = $tachesRepository->count(['user' => $user]);
+
         return $this->render('taches/index.html.twig', [
             'taches' => $taches,
-            'taches_terminees' => $tachesTerminees, // affiche les tâches terminées
-            'taches_en_cours' => $tachesEnCours, // affiche les tâches en cours            
-            'taches_a_faire' => $tachesAfaire, // affiche les tâches à faire            
-            'total_taches' => $totalTaches, // affiche le nombre total de tâches
+            'taches_terminees' => $tachesTerminees,
+            'taches_en_cours' => $tachesEnCours,
+            'taches_a_faire' => $tachesAFaire,
+            'total_taches' => $totalTaches
         ]);
     }
 
-
-
-
     #[Route('/new', name: 'app_taches_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager,): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $tach = new Taches();
         $form = $this->createForm(TachesType::class, $tach);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $tach->setUser($this->getUser());
             $entityManager->persist($tach);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_taches_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash(
+                'success',
+                'Votre tache a été créé avec succès !'
+            );
+
+            return $this->redirectToRoute('app_taches_index');
         }
+
 
         return $this->render('taches/new.html.twig', [
             'tach' => $tach,
@@ -74,6 +70,10 @@ class TachesController extends AbstractController
     #[Route('/{id}', name: 'app_taches_show', methods: ['GET'])]
     public function show(Taches $tach): Response
     {
+        if ($tach->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
         return $this->render('taches/show.html.twig', [
             'tach' => $tach,
         ]);
@@ -82,29 +82,50 @@ class TachesController extends AbstractController
     #[Route('/{id}/edit', name: 'app_taches_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Taches $tach, EntityManagerInterface $entityManager): Response
     {
+    {
+        if ($tach->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
         $form = $this->createForm(TachesType::class, $tach);
         $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+                $this->addFlash(
+                    'success',
+                    'Votre tache a été modifiée avec succès !'
+                );
 
-            return $this->redirectToRoute('app_taches_index', [], Response::HTTP_SEE_OTHER);
-        }
+                return $this->redirectToRoute('app_taches_index');
+            }
+
 
         return $this->render('taches/edit.html.twig', [
             'tach' => $tach,
             'form' => $form,
         ]);
     }
+    }
 
-    #[Route('/{id}', name: 'app_taches_delete', methods: ['POST'])]
+     #[Route('/{id}', name: 'app_taches_delete', methods: ['POST'])]
     public function delete(Request $request, Taches $tach, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tach->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($tach);
-            $entityManager->flush();
+        if ($tach->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
         }
 
-        return $this->redirectToRoute('app_taches_index', [], Response::HTTP_SEE_OTHER);
-    }
+        if ($this->isCsrfTokenValid('delete' . $tach->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($tach);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre tache a été supprimée avec succès !'
+            );
+
+            return $this->redirectToRoute('app_taches_index');
+        }
+
+}
 }

@@ -4,29 +4,34 @@ namespace App\Entity;
 
 use App\Repository\TachesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: TachesRepository::class)]
 class Taches
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: "datetime")]
     private ?\DateTime $date = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $priorite = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $statut = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -38,10 +43,9 @@ class Taches
         return $this->titre;
     }
 
-    public function setTitre(string $titre): static
+    public function setTitre(string $titre): self
     {
         $this->titre = $titre;
-
         return $this;
     }
 
@@ -50,10 +54,9 @@ class Taches
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -62,10 +65,9 @@ class Taches
         return $this->date;
     }
 
-    public function setDate(\DateTime $date): static
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -74,10 +76,9 @@ class Taches
         return $this->priorite;
     }
 
-    public function setPriorite(string $priorite): static
+    public function setPriorite(string $priorite): self
     {
         $this->priorite = $priorite;
-
         return $this;
     }
 
@@ -86,10 +87,20 @@ class Taches
         return $this->statut;
     }
 
-    public function setStatut(string $statut): static
+    public function setStatut(string $statut): self
     {
         $this->statut = $statut;
+        return $this;
+    }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
         return $this;
     }
 }

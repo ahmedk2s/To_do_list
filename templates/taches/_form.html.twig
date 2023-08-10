@@ -1,5 +1,9 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-<button class="{{ button_class|default('btn btn-secondary') }}">{{ button_label|default('Enregistrer') }}</button>
+
+    <button class="{{ button_class|default('btn btn-secondary') }}">
+        {{ button_label|default('Enregistrer') }}
+        <i class="fa-regular fa-circle-check fa-fade"></i>
+    </button>
 
 {{ form_end(form) }}

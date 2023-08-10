@@ -105,8 +105,12 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-primary" href="{{ path('app_taches_show', {'id': tach.id}) }}">Voir</a>
-                                <a class="btn btn-sm btn-secondary" href="{{ path('app_taches_edit', {'id': tach.id}) }}">Modifier</a>
+                                <a class="btn btn-sm btn-primary" href="{{ path('app_taches_show', {'id': tach.id}) }}">
+                               <i class="fa-regular fa-eye mr-2"></i>
+                                Voir</a>
+                                <a class="btn btn-sm btn-secondary" href="{{ path('app_taches_edit', {'id': tach.id}) }}">
+                                 <i class="fas fa-pencil-alt mr-2"></i>
+                                Modifier</a>
                             </td>
                         </tr>
                     {% else %}
@@ -124,13 +128,17 @@
         <div class="container">
             <div class="row justify-content-between align-items-center mb-3 animate__animated animate__slideInUp">
                 <div class="col">
-                    <a class="btn btn-success animate__animated animate__slideInUp" href="{{ path('app_taches_new') }}">Créer tâches</a>
+                    <a class="btn btn-success animate__animated animate__slideInUp" href="{{ path('app_taches_new') }}">
+                    Créer tâches <i class="fa-regular fa-plus"></i></a>
                 </div>
                 <div class="col-auto">
                     {% if app.user %}
-                        <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                <a class="btn btn-danger" href="{{ path('app_logout') }}">
+                Déconnexion <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
                     {% endif %}
                 </div>
+
             </div>
             <div class="col-auto">
                 {% if app.user %}

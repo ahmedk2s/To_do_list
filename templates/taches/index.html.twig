@@ -156,9 +156,9 @@
             <div class="col-auto">
                 {% if app.user %}
                     <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 1030;">
-                        <div class="p-3 bg-dark text-white">
+                        <div class="p-3 bg-dark bg-gradient rounded text-white">
                             <div class="card-body">
-                                Connecté avec l'ID: {{ app.user.userIdentifier }}
+                                Connecté en tant que: {{ app.user.getPrenom }}  {{ app.user.getNom }}
                             </div>
                         </div>
                     </div>

@@ -36,6 +36,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private Collection $taches;
 
+    #[ORM\Column(length: 255)]
+    private ?string $nom = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $prenom = null;
+
     public function __construct()
     {
         $this->taches = new ArrayCollection();
@@ -72,13 +78,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @see UserInterface
      */
     public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+{
+    $roles = $this->roles;
+    
+    // Vérifie si 'ROLE_USER' est déjà présent avant d'ajouter
+    if (!in_array('ROLE_USER', $roles)) {
         $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
     }
+
+    return $roles;
+}
+
 
     public function setRoles(array $roles): static
     {
@@ -137,6 +147,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $tache->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): static
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }

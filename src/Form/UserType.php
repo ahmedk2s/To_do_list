@@ -17,13 +17,13 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('fullName', TextType::class, [
+            ->add('nom', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlenght' => '2',
                     'maxlenght' => '50',
                 ],
-                'label' => 'Nom / Prénom',
+                'label' => 'Nom',
                 'label_attr' => [
                     'class' => 'form-label  mt-3'
                 ],
@@ -32,18 +32,18 @@ class UserType extends AbstractType
                     new Assert\Length(['min' => 2, 'max' => 50])
                 ]
             ])
-            ->add('pseudo', TextType::class, [
+            ->add('prenom', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlenght' => '2',
                     'maxlenght' => '50',
                 ],
-                'required' => false,
-                'label' => 'Pseudo (Facultatif)',
+                'label' => 'Prénom',
                 'label_attr' => [
                     'class' => 'form-label  mt-3'
                 ],
                 'constraints' => [
+                    new Assert\NotBlank(),
                     new Assert\Length(['min' => 2, 'max' => 50])
                 ]
             ])
@@ -51,16 +51,11 @@ class UserType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Mot de passe',
+                'label' => 'Mot de passe actuel pour confirmer',
                 'label_attr' => [
                     'class' => 'form-label  mt-3'
-                ]
-            ])
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary mt-3'
                 ],
-                'label' => 'Changer utilisateur'
+                'required' => false
             ]);
     }
 
@@ -71,4 +66,5 @@ class UserType extends AbstractType
         ]);
     }
 }
+
 

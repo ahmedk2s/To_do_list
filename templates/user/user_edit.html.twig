@@ -1,0 +1,27 @@
+{# templates/user/user_edit.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modifier profil
+{% endblock %}
+
+{% block body %}
+<div class="container animate__animated animate__fadeIn">
+    <h1 class="my-4">Modifier profil</h1>
+
+    <div class="card card-body bg-light my-4 px-5 py-4 animate__animated animate__fadeIn">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-success animate__animated animate__bounceIn">
+                Mettre à jour
+            </button>
+        {{ form_end(form) }}
+    </div>
+
+    <a class="btn btn-secondary mt-3 animate__animated animate__fadeInLeft" href="{{ path('app_taches_index') }}">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Retour à l'accueil
+    </a>
+</div>
+{% endblock %}

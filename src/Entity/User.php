@@ -32,6 +32,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     /**
+     * This is not mapped to the database.
+     * Used for password updates.
+     */
+    private ?string $plainPassword = null;
+
+    /**
      * @ORM\OneToMany(targetEntity=Taches::class, mappedBy="user")
      */
     private Collection $taches;
@@ -105,10 +111,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+        return $this;
+    }
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
         return $this;
     }
 

@@ -54,7 +54,7 @@ public function edit(
                 'Les informations de votre compte ont bien été modifiées.'
             );
 
-            return $this->redirectToRoute('app_tache');
+            return $this->redirectToRoute('app_taches_index');
         } else {
             $this->addFlash(
                 'warning',
@@ -63,7 +63,7 @@ public function edit(
         }
     }
 
-    return $this->render('pages/user/edit.html.twig', [
+    return $this->render('/user/user_edit.html.twig', [
         'form' => $form->createView(),
     ]);
     }

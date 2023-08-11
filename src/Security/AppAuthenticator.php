@@ -44,14 +44,20 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        // Si c'est l'email gregory.girault88@gmail.com, redirection vers le backoffice
+        if ($token->getUser()->getEmail() === 'gregory.girault88@gmail.com') {
+            return new RedirectResponse($this->urlGenerator->generate('admin')); // ou le nom de la route de votre backoffice si ce n'est pas 'easyadmin'
+        }
+
+        // Sinon, utilisez la logique de redirection actuelle
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-         return new RedirectResponse($this->urlGenerator->generate('app_taches_index'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // Redirection par défaut
+        return new RedirectResponse($this->urlGenerator->generate('app_taches_index'));
     }
+
 
     protected function getLoginUrl(Request $request): string
     {

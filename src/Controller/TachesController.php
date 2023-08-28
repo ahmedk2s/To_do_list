@@ -20,8 +20,15 @@ class TachesController extends AbstractController
     {
         $user = $this->getUser();
 
+        $statutFilter = $request->query->get('statut');
+
+        $criteria = ['user' => $user];
+        if ($statutFilter) {
+            $criteria['statut'] = $statutFilter;
+        }
+
         $taches = $paginator->paginate(
-            $tachesRepository->findBy(['user' => $user]),
+            $tachesRepository->findBy($criteria),
             $request->query->getInt('page', 1),
             5
         );
